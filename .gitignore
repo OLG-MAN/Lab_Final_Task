@@ -1,0 +1,8 @@
+*.json
+*.tfstate.lock.info
+*.lock.hcl
+*.tfstate
+*.tfstate.backup
+**/.terraform/*
+**/auto/.terraform/*
+**/terraform/.terraform/*

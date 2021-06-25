@@ -26,6 +26,7 @@
 
 ```
 docker run -it --rm -v ${PWD}:/work -w /work <IMAGE_NAME>
+
 ```
 
 3. Autheticate with GCP project, choose project for working. 
@@ -34,11 +35,25 @@ docker run -it --rm -v ${PWD}:/work -w /work <IMAGE_NAME>
 gcloud auth login
 
 gcloud config set project PROJECT_ID
+
 ```
 
-4. Creating service account for tf, create .json key and use it in .tf files.
+4. Creating service account for terraform, create .json key and use it in .tf files.
 
-5. Creating infrastructure.
+5. Creating infrastructure. Configure kubectl.
+
+```
+terraform init
+
+terraform validate
+
+terraform plan
+
+terraform apply
+
+gcloud container clusters get-credentials $(terraform output -raw kubernetes_cluster_name) --region $(terraform output -raw region)
+
+```
 
 6. Install and configure Jenkins
 
