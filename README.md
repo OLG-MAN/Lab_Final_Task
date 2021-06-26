@@ -55,6 +55,24 @@ gcloud container clusters get-credentials $(terraform output -raw kubernetes_clu
 
 ```
 
-6. Install and configure Jenkins
+6. Install and configure Jenkins. 
+* Create namespace.
+* Add service accounts and RBAC.
+* Add persistence volume and persistence volume claim.
+* Apply jenkins deployment.
+* Add Service to connect with jenkins and configure it.
 
-7. 
+```
+kubectl create ns jenkins
+
+kubectl -n jenkins apply -f jenkins/
+
+#show jenkins pod name
+kubectl -n jenkins get pods
+
+#grab password to jenkins first time configure
+kubectl -n jenkins logs <POD_NAME>
+
+```
+
+7. Install Kubernetes plugin.   
