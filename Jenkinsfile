@@ -1,9 +1,6 @@
 pipeline {
-    agent { 
-        kubernetes{
-            label 'jenkins-slave'
-        }
-        
+    node { 
+        label 'jenkins-slave'
     }
     
     environment{
@@ -57,7 +54,7 @@ pipeline {
                 cat ./kubernetes/deployments/deployment.yaml | sed s/10/${BUILD_NUMBER}/g | ./kubectl apply -f -
                 ./kubectl apply -f ./kubernetes/services/service.yaml
                 '''
+            }
         }
     }
-}
 }

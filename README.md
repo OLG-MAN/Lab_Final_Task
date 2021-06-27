@@ -65,6 +65,7 @@ gcloud container clusters get-credentials $(terraform output -raw kubernetes_clu
 ```
 kubectl create ns jenkins
 
+# apply all items like pv,pvc,rbac,sa,jenkins-msater pod
 kubectl -n jenkins apply -f jenkins/
 
 #show jenkins pod name
@@ -75,4 +76,38 @@ kubectl -n jenkins logs <POD_NAME>
 
 ```
 
-7. Install Kubernetes plugin.   
+7. Install Kubernetes and configure plugin.
+
+* Installing `kubernetes-plugin` for Jenkins and restart
+* Go to Manage Jenkins | Manage Nodes and Clouds | Configure Cloud | Kubernetes (Add kubernetes cloud) | Details
+* Fill out plugin values
+    * Name: kubernetes
+    * Kubernetes URL: https://kubernetes.default:443
+    * Kubernetes Namespace: jenkins
+    * Credentials | Add | Jenkins (Choose Kubernetes service account option & Global + Save)
+    * Test Connection | Should be successful! If not, check RBAC permissions and fix it!
+    * Jenkins URL: http://jenkins
+    * Tunnel : jenkins:50000
+    * Add Kubernetes Pod Template
+        * Name: jenkins-slave | templates details
+        * Namespace: jenkins
+        * Labels: jenkins-slave (you will need to use this label on all jobs)
+        * Add Containers | Add Container Template
+            * Name: jnlp
+            * Docker Image: aimvector/jenkins-slave
+            * Command to run : <Make this blank>
+            * Arguments to pass to the command: <Make this blank>
+            * Allocate pseudo-TTY: yes
+            * Advanced | User ID : 1001 | GroupID : 1950
+            * Add Volume
+                * HostPath type
+                * HostPath: /var/run/docker.sock
+                * Mount Path: /var/run/docker.sock
+                * in Bottom of Page | 
+                * Service Account : jenkins 
+                * User ID : 1001 
+                * GroupID : 1950
+* Save
+
+8. CI/CD Pipeline 
+
