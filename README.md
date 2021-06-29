@@ -40,7 +40,7 @@ gcloud config set project PROJECT_ID
 
 4. Creating service account for terraform, create .json key and use it in .tf files.
 
-5. Creating infrastructure. Configure kubectl.
+5. Creating infrastructure. GKE cluster and gce-disk for Jenkins. Configure kubectl.
 
 ```
 terraform init
@@ -65,7 +65,7 @@ gcloud container clusters get-credentials $(terraform output -raw kubernetes_clu
 ```
 kubectl create ns jenkins
 
-# apply all items like pv,pvc,rbac,sa,jenkins-msater pod
+#apply all items like pv, pvc, rbac, sa, jenkins-master pod
 kubectl -n jenkins apply -f jenkins/
 
 #show jenkins pod name
@@ -98,19 +98,32 @@ kubectl -n jenkins logs <POD_NAME>
             * Command to run : <Make this blank>
             * Arguments to pass to the command: <Make this blank>
             * Allocate pseudo-TTY: yes
-            * Advanced | User ID : 1001 | GroupID : 1950
+            * Advanced | User ID : <docker id> | GroupID : <docker group> 
+              (SSH to VM and grab id's by commands 'cat /etc/passwd' 'cat /etc/group')
             * Add Volume
                 * HostPath type
                 * HostPath: /var/run/docker.sock
                 * Mount Path: /var/run/docker.sock
                 * in Bottom of Page | 
                 * Service Account : jenkins 
-                * User ID : 1001 
-                * GroupID : 1950
+                * User ID : <docker id>
+                * GroupID : <docker group>
 * Save
 
-8. CI/CD Pipeline 
+8. CI/CD Pipeline
 * Create pipeline job
 * Add webhook trigger to github repo of project
-* Choose pipeline script from SCM | add repo | edit bracnc if need | choose Jenkins file.
+* Choose pipeline script from SCM | add repo | edit branch if need | choose Jenkins file.
+* Pipeline code we can find in Jenkinsfile
+
+9. Check Deployment resources
+
+```
+#check all new created resources in namespace
+kubectl -n jenkins get all
+
+#grab Loadbalancer externalIP to find our deployment web-app 
+```
+
+10. Monitoring
 
