@@ -110,4 +110,7 @@ kubectl -n jenkins logs <POD_NAME>
 * Save
 
 8. CI/CD Pipeline 
+* Create pipeline job
+* Add webhook trigger to github repo of project
+* Choose pipeline script from SCM | add repo | edit bracnc if need | choose Jenkins file.
 
