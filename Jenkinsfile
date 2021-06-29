@@ -1,8 +1,10 @@
 pipeline {
-    node { 
-        label 'jenkins-slave'
+    agent {
+        kubernetes {
+            label 'jenkins-slave'
+        }
     }
-    
+
     environment{
         DOCKER_USERNAME = credentials('DOCKER_USERNAME')
         DOCKER_PASSWORD = credentials('DOCKER_PASSWORD')
@@ -18,7 +20,7 @@ pipeline {
         stage('git clone') {
             steps{
                 sh(script: """
-                    git clone https://github.com/OLG-MAN/project101-tf-eks-jenkins.git
+                    git clone https://github.com/OLG-MAN/Lab_Final_Task.git
                 """, returnStdout: true) 
             }
         }
@@ -27,7 +29,7 @@ pipeline {
             steps{
                 sh script: '''
                 #!/bin/bash
-                cd $WORKSPACE/project101-tf-eks-jenkins/python
+                cd $WORKSPACE/Lab_Final_Task/python_app
                 docker build . --network host -t olegan/testapp:${BUILD_NUMBER}
                 '''
             }
@@ -45,8 +47,7 @@ pipeline {
             steps{
                 sh script: '''
                 #!/bin/bash
-                cd $WORKSPACE/project101-tf-eks-jenkins/
-                #get kubectl for this demo
+                cd $WORKSPACE/Lab_Final_Task/
                 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
                 chmod +x ./kubectl
                 ./kubectl apply -f ./kubernetes/configmaps/configmap.yaml

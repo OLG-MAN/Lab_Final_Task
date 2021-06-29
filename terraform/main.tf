@@ -61,3 +61,11 @@ resource "google_container_node_pool" "default" {
     ]
   }
 }
+
+resource "google_compute_disk" "jenkins" {
+  name  = "jenkins"
+  type  = "pd-ssd"
+  zone  = "europe-central2-a"
+  size  = 100
+  physical_block_size_bytes = 4096
+}
