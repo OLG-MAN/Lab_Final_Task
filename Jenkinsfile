@@ -50,8 +50,7 @@ pipeline {
                 cd $WORKSPACE/Lab_Final_Task/
                 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
                 chmod +x ./kubectl
-                ./kubectl -n test apply -f ./kubernetes/test/configmap.yaml
-                ./kubectl -n testapply -f ./kubernetes/test/secret.yaml
+
                 cat ./kubernetes/test/deployment.yaml | sed s/10/${BUILD_NUMBER}/g | ./kubectl apply -f -
                 ./kubectl -n test apply -f ./kubernetes/test/service.yaml
                 '''
@@ -67,8 +66,7 @@ pipeline {
                 cd $WORKSPACE/Lab_Final_Task/
                 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
                 chmod +x ./kubectl
-                ./kubectl -n prod apply -f ./kubernetes/prod/configmap.yaml
-                ./kubectl -n prod -f ./kubernetes/prod/secret.yaml
+
                 cat ./kubernetes/prod/deployment.yaml | sed s/10/${BUILD_NUMBER}/g | ./kubectl apply -f -
                 ./kubectl -n prod -f ./kubernetes/prod/service.yaml
                 '''
