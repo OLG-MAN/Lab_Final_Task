@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: example-config
+  name: prod-config
 data:
   config.json: |
     {

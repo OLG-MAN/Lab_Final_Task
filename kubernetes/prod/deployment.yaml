@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: example-deploy
+  name: prod-deploy
   labels:
-    app: example-app
+    app: prod-app
     test: test
   annotations:
     fluxcd.io/tag.example-app: semver:~1.0
@@ -11,7 +11,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: example-app
+      app: prod-app
   replicas: 2
   strategy:
     type: RollingUpdate
@@ -21,10 +21,10 @@ spec:
   template:
     metadata:
       labels:
-        app: example-app
+        app: prod-app
     spec:
       containers:
-      - name: example-app
+      - name: prod-app
         image: olegan/testapp:10
         imagePullPolicy: Always
         ports:

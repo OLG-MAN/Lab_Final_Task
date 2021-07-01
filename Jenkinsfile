@@ -11,13 +11,13 @@ pipeline {
     }
     
     stages {
-        stage('docker login') {
+        stage('Docker login') {
             steps{
                 sh('docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD') 
             }
         }
 
-        stage('git clone') {
+        stage('Git clone') {
             steps{
                 sh(script: """
                     git clone https://github.com/OLG-MAN/Lab_Final_Task.git
@@ -25,7 +25,7 @@ pipeline {
             }
         }
 
-        stage('docker build') {
+        stage('Docker build') {
             steps{
                 sh script: '''
                 #!/bin/bash
@@ -35,7 +35,7 @@ pipeline {
             }
         }
 
-        stage('docker push') {
+        stage('Docker push') {
             steps{
                 sh(script: """
                     docker push olegan/testapp:${BUILD_NUMBER}
@@ -43,17 +43,34 @@ pipeline {
             }
         }
 
-        stage('deploy') {
+        stage('Deploy to test') {
             steps{
                 sh script: '''
                 #!/bin/bash
                 cd $WORKSPACE/Lab_Final_Task/
                 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
                 chmod +x ./kubectl
-                ./kubectl apply -f ./kubernetes/configmaps/configmap.yaml
-                ./kubectl apply -f ./kubernetes/secrets/secret.yaml
-                cat ./kubernetes/deployments/deployment.yaml | sed s/10/${BUILD_NUMBER}/g | ./kubectl apply -f -
-                ./kubectl apply -f ./kubernetes/services/service.yaml
+                ./kubectl -n test apply -f ./kubernetes/test/configmap.yaml
+                ./kubectl -n testapply -f ./kubernetes/test/secret.yaml
+                cat ./kubernetes/test/deployment.yaml | sed s/10/${BUILD_NUMBER}/g | ./kubectl apply -f -
+                ./kubectl -n test apply -f ./kubernetes/test/service.yaml
+                '''
+            }
+        }
+
+        stage('Deploy to prod') {
+            steps{
+                input 'Deploy to Production?'
+                milestone(1)
+                sh script: '''
+                #!/bin/bash
+                cd $WORKSPACE/Lab_Final_Task/
+                curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+                chmod +x ./kubectl
+                ./kubectl -n prod apply -f ./kubernetes/prod/configmap.yaml
+                ./kubectl -n prod -f ./kubernetes/prod/secret.yaml
+                cat ./kubernetes/prod/deployment.yaml | sed s/10/${BUILD_NUMBER}/g | ./kubectl apply -f -
+                ./kubectl -n prod -f ./kubernetes/prod/service.yaml
                 '''
             }
         }
