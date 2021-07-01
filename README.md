@@ -46,6 +46,7 @@ terraform plan
 terraform apply
 gcloud container clusters get-credentials $(terraform output -raw kubernetes_cluster_name) --region $(terraform output -raw region)
 ```
+
 ### Jenkins CI/CD.
 
 6. Install and configure Jenkins. 
@@ -112,6 +113,7 @@ kubectl -n jenkins logs <POD_NAME>
 ```
 #check all new created resources in namespace
 kubectl -n jenkins get all
+
 #grab Loadbalancer externalIP to find our deployment web-app 
 ```
 

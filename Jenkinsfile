@@ -43,21 +43,22 @@ pipeline {
             }
         }
 
-        stage('Deploy to test') {
+        stage('Deploy to TEST') {
             steps{
                 sh script: '''
                 #!/bin/bash
                 cd $WORKSPACE/Lab_Final_Task/
                 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
                 chmod +x ./kubectl
-
+                ./kubectl apply -f ./kubernetes/test/configmap.yaml
+                ./kubectl apply -f ./kubernetes/test/secret.yaml
                 cat ./kubernetes/test/deployment.yaml | sed s/10/${BUILD_NUMBER}/g | ./kubectl apply -f -
-                ./kubectl -n test apply -f ./kubernetes/test/service.yaml
+                ./kubectl apply -f ./kubernetes/test/service.yaml
                 '''
             }
         }
 
-        stage('Deploy to prod') {
+        stage('Deploy to PROD') {
             steps{
                 input 'Deploy to Production?'
                 milestone(1)
@@ -66,9 +67,10 @@ pipeline {
                 cd $WORKSPACE/Lab_Final_Task/
                 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
                 chmod +x ./kubectl
-
+                ./kubectl apply -f ./kubernetes/prod/configmap.yaml
+                ./kubectl apply -f ./kubernetes/prod/secret.yaml
                 cat ./kubernetes/prod/deployment.yaml | sed s/10/${BUILD_NUMBER}/g | ./kubectl apply -f -
-                ./kubectl -n prod -f ./kubernetes/prod/service.yaml
+                ./kubectl apply -f ./kubernetes/prod/service.yaml
                 '''
             }
         }
