@@ -83,7 +83,7 @@ kubectl -n jenkins logs <POD_NAME>
 
 7. Install Kubernetes and configure plugin.
 
-* Installing `kubernetes-plugin` for Jenkins and restart
+* Installing `kubernetes-plugin` for Jenkins and restart it.
 * Go to Manage Jenkins | Manage Nodes and Clouds | Configure Cloud | Kubernetes (Add kubernetes cloud) | Details
 * Fill out plugin values
     * Name: kubernetes
@@ -104,7 +104,7 @@ kubectl -n jenkins logs <POD_NAME>
             * Arguments to pass to the command: <Make this blank>
             * Allocate pseudo-TTY: yes
             * Advanced | User ID : <docker id> | GroupID : <docker group> 
-              (SSH to VM and grab id's by commands 'cat /etc/passwd' 'cat /etc/group')
+              (SSH to VMs and grab id's and groups by commands 'cat /etc/passwd' and 'cat /etc/group')
             * Add Volume
                 * HostPath type
                 * HostPath: /var/run/docker.sock
