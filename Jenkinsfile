@@ -1,9 +1,6 @@
-pipeline {
-    agent { 
-        kubernetes{
-            label 'jenkins-slave'
-        }
-
+podTemplate(jenkins-slave) {
+    node(jenkins-slave) {
+        
     environment{
         DOCKER_USERNAME = credentials('DOCKER_USERNAME')
         DOCKER_PASSWORD = credentials('DOCKER_PASSWORD')
