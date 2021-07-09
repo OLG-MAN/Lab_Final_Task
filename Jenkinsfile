@@ -1,5 +1,5 @@
 pipeline {
-    
+
     agent { 
         kubernetes{
             label 'jenkins-slave'
@@ -71,7 +71,7 @@ pipeline {
                 chmod +x ./kubectl
                 ./kubectl -n prod apply -f ./kubernetes/prod/configmap.yaml
                 ./kubectl -n prod apply -f ./kubernetes/prod/secret.yaml
-                cat ./kubernetes/prod/deployment.yaml | sed s/10/${BUILD_NUMBER}/g | ./kubectl apply -f -
+                cat ./kubernetes/prod/deployment.yaml | sed s/10/${BUILD_NUMBER}/g | ./kubectl -n prod apply -f -
                 ./kubectl -n prod apply -f ./kubernetes/prod/service.yaml
                 '''
             }

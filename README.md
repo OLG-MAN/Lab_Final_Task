@@ -142,6 +142,7 @@ kubectl -n <NAMESPACE> get all
 
 #grab Loadbalancer externalIP to find our deployment of web-app
 ```
+
 ### Install and configure Monitoring for k8s cluster
 
 10. Monitoring
