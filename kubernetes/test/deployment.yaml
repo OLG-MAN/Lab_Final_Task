@@ -4,7 +4,6 @@ metadata:
   name: test-deploy
   labels:
     app: test-app
-    test: test
   annotations:
     fluxcd.io/tag.example-app: semver:~1.0
     fluxcd.io/automated: 'true'
