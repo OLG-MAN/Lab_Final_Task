@@ -6,3 +6,4 @@
 **/.terraform/*
 **/auto/.terraform/*
 **/terraform/.terraform/*
+**/helm/*

@@ -134,7 +134,7 @@ kubectl create ns prod
 
 ### Check web-app
 
-9. Check Deployment resources
+9. Check Deployment resources.
 
 ```
 #check all new created resources in namespace
@@ -146,3 +146,55 @@ kubectl -n <NAMESPACE> get all
 ### Install and configure Monitoring for k8s cluster
 
 10. Monitoring
+
+* Install Helm 
+
+```
+#install helm
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+#check helm
+helm version
+```
+
+* Add prometheus-community helm chart in K8s cluster.
+
+```
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+```
+
+* Install prometheus-community/kube-prometheus-stack
+
+```
+#we can check latest version in https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack
+helm install my-kube-prometheus-stack prometheus-community/kube-prometheus-stack --version 16.12.1
+```
+
+* Check pods and services that created.
+
+```
+#check pods and services in defalt namespace
+kubectl get pods 
+kubectl get svc
+```
+
+* Edit Prometheus and Grafana services to have access and configure it.
+
+```
+#edit services change type to LoadBalancer
+kubectl edit svc my-kube-prometheus-stack-grafana
+kubectl edit svc my-kube-prometheus-stack-prometheus
+
+#check and grab IP's from prometheus and grafana
+kubectl get svc
+```
+
+* Go to LoadBalancer IP of Grafana to configure it.
+
+- Data sources already configured to Prometheus
+- We can click to dashboard | manage | Choose Resource for Monitoring
+
+------------------------------------------------------------------------
