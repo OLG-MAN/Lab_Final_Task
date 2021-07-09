@@ -36,14 +36,25 @@ gcloud config set project PROJECT_ID
 ```
 
 4. Creating service account for terraform, create .json key and use it in .tf files.
+- Create service account. In IAM & Admin menu.
+- Type <NAME>
+- Give Role - Project - Owner
+- Create key (JSON format), key will automaticaly downloaded
+- use this key in .tf file in provider credentials
 
 5. Creating infrastructure. GKE cluster and gce-disk for Jenkins. Configure kubectl.
 
 ```
+#go to terraform folder 
+cd terraform/
+
+#initialize terraform, check and apply terraform files
 terraform init
 terraform validate
 terraform plan
 terraform apply
+
+#get cluster credentials, configure .kubeconfig
 gcloud container clusters get-credentials $(terraform output -raw kubernetes_cluster_name) --region $(terraform output -raw region)
 ```
 
@@ -57,11 +68,15 @@ gcloud container clusters get-credentials $(terraform output -raw kubernetes_clu
 * Add Service to connect with jenkins and configure it.
 
 ```
+#create namespace for Jenkins
 kubectl create ns jenkins
+
 #apply all items like pv, pvc, rbac, sa, jenkins-master pod
 kubectl -n jenkins apply -f jenkins/
+
 #show jenkins pod name
 kubectl -n jenkins get pods
+
 #grab password to jenkins first time configure
 kubectl -n jenkins logs <POD_NAME>
 ```
@@ -103,8 +118,13 @@ kubectl -n jenkins logs <POD_NAME>
 8. CI/CD Pipeline
 * Create pipeline job
 * Add webhook trigger to github repo of project
-* Choose pipeline script from SCM | add repo | edit branch if need | choose Jenkins file.
+* Choose pipeline script from SCM | add GitHub repo | edit branch if need | choose Jenkins file.
 * Pipeline code we can find in Jenkinsfile
+
+* I use two namespaces for deployments in k8s cluster - 'test' and 'prod'.
+  When we make a build, first pipeline create a deployment in 'test' namespace and we can check web-app here.
+  After I use 'milestone' and we can continue deploy to 'prod' namespace if web-app in 'test' is OK.
+  If NOT, we can abort deploy to 'prod' namespace. And fix some issues in web-app or in a build.
 
 ### Check web-app
 
@@ -112,9 +132,10 @@ kubectl -n jenkins logs <POD_NAME>
 
 ```
 #check all new created resources in namespace
-kubectl -n jenkins get all
+kubectl -n <NAMESPACE> get all
 
-#grab Loadbalancer externalIP to find our deployment web-app 
+#grab Loadbalancer externalIP to find our deployment of web-app
 ```
+### Install and configure Monitoring for k8s cluster
 
 10. Monitoring
