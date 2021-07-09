@@ -116,13 +116,19 @@ kubectl -n jenkins logs <POD_NAME>
 * Save
 
 8. CI/CD Pipeline
+* Create two namespaces for deployments in k8s cluster - 'test' and 'prod'.
+
+```
+kubectl create ns test
+kubectl create ns prod
+```
+
 * Create pipeline job
 * Add webhook trigger to github repo of project
 * Choose pipeline script from SCM | add GitHub repo | edit branch if need | choose Jenkins file.
 * Pipeline code we can find in Jenkinsfile
 
-* I use two namespaces for deployments in k8s cluster - 'test' and 'prod'.
-  When we make a build, first pipeline create a deployment in 'test' namespace and we can check web-app here.
+* When we make a build, first pipeline create a deployment in 'test' namespace and we can check web-app here.
   After I use 'milestone' and we can continue deploy to 'prod' namespace if web-app in 'test' is OK.
   If NOT, we can abort deploy to 'prod' namespace. And fix some issues in web-app or in a build.
 
