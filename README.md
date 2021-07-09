@@ -2,13 +2,14 @@
 
 ## Summary
 
-### Creating infrastructure and CI/CD for Web-app.
+### Cloud k8s infrastructure and CI/CD for web-app.
 
-* Use VSCode and create working docker container with needed tools inside.
+* Working environment - vscode and docker container with needed tools inside.
 * Provisioning GKE cluster and resource through Terraform.
 * Configure cluster.
-* Install and Configure Jenkins. Making CI/CD pipeline.
-* Install Monitoring and make DNS address configuration.
+* Install and Configure Jenkins. 
+* Making CI/CD pipeline.
+* Install Monitoring.
 
 ### Using tools and techs
 
@@ -17,12 +18,15 @@
 * Terraform
 * GCP/GKE
 * Jenkins
+* Helm
 * Prometheus/Grafana
+
+## Steps
 
 ### Use terrafrom to create infrastructure on GCP.
 
 1. Using google cloud-sdk docker image. Build working container based on image, install TF. 
-2. Starting container (cloud-sdk+tf) and attach working directory to container.
+2. Starting container (cloud-sdk + tf) and attach working directory to container.
 
 ```
 docker run -it --rm -v ${PWD}:/work -w /work <IMAGE_NAME>
@@ -197,4 +201,4 @@ kubectl get svc
 - Data sources already configured to Prometheus
 - We can click to dashboard | manage | Choose Resource for Monitoring
 
-------------------------------------------------------------------------
+----------------------------------------------------------------------
