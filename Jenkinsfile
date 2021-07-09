@@ -1,4 +1,8 @@
-node('jenkins-slave') {
+pipeline {
+    agent { 
+        kubernetes{
+            label 'jenkins-slave'
+        }
 
     environment{
         DOCKER_USERNAME = credentials('DOCKER_USERNAME')
