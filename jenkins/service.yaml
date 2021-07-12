@@ -5,7 +5,7 @@ metadata:
   labels:
     app: jenkins
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - name: ui
       port: 8080

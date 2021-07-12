@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-hosts
+
+spec:
+  rules:
+# uncomment this part below for test namespace
+  # - host: www.finaltask-a.pp.ua
+  #   http:
+  #     paths:
+  #       - backend:
+  #          serviceName: prod-service
+  #          servicePort: 80
+
+# uncomment this part below for test namespace
+  # - host: finaltask-a.pp.ua
+  #   http:
+  #     paths:
+  #       - backend:
+  #          serviceName: prod-service
+  #          servicePort: 80
+
+# uncomment this part below for test namespace
+  # - host: test.finaltask-a.pp.ua
+  #   http:
+  #     paths:
+  #       - backend:
+  #          serviceName: test-service
+  #          servicePort: 80
+
+# uncomment this part below for test namespace
+  # - host: jenkins.finaltask-a.pp.ua
+  #   http:
+  #     paths:
+  #       - backend:
+  #          serviceName: jenkins
+  #          servicePort: 8080

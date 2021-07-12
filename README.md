@@ -7,6 +7,7 @@
 * Working environment - vscode and docker container with needed tools inside.
 * Provisioning GKE cluster and resource through Terraform.
 * Configure cluster.
+* Install and configure Ingress.
 * Install and Configure Jenkins. 
 * Making CI/CD pipeline.
 * Install Monitoring.
@@ -20,6 +21,7 @@
 * Jenkins
 * Helm
 * Prometheus/Grafana
+* Contour Ingress controller
 
 ## Steps
 
@@ -61,6 +63,25 @@ terraform apply
 #get cluster credentials, configure .kubeconfig
 gcloud container clusters get-credentials $(terraform output -raw kubernetes_cluster_name) --region $(terraform output -raw region)
 ```
+
+### Install Ingress and configure Cloud DNS
+
+* Install Contour Ingress Controller
+
+```
+#deploy ingress
+kubectl apply -f https://projectcontour.io/quickstart/contour.yaml
+```
+
+* Prepare DNS address. We can register a free domain name like example.pp.ua
+* Create zone for domain in Cloud DNS
+* Configure domain name NS records which provide in Cloud DNS
+* Create records in Cloud DNS for differents services in this task (like jenkins, test-app env, prod-app env).
+* Configure ingress file for backend services (file in ingress folder).
+* After installing each services (jenkins, prod, test) in their namespaces,  
+  apply ingress file in each namespace with uncomment part of codes in file. 
+  (All instructions in comments ingress-hosts.yaml)
+
 
 ### Jenkins CI/CD.
 
@@ -143,9 +164,11 @@ kubectl create ns prod
 ```
 #check all new created resources in namespace
 kubectl -n <NAMESPACE> get all
-
-#grab Loadbalancer externalIP to find our deployment of web-app
 ```
+
+* Configure Ingress file for each namespace.
+
+* Go to each address to check different environments.
 
 ### Install and configure Monitoring for k8s cluster
 
