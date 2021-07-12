@@ -225,3 +225,7 @@ kubectl get svc
 - We can click to dashboard | manage | Choose Resource for Monitoring
 
 ----------------------------------------------------------------------
+
+P.S. Presentation of project with screenshots.
+
+[Here](https://github.com/OLG-MAN/Lab_Final_Task/blob/main/Lab%20Final%20Task.pdf)
