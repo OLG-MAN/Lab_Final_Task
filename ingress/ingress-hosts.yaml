@@ -5,7 +5,7 @@ metadata:
 
 spec:
   rules:
-# uncomment this part below for test namespace
+# uncomment this part below for prod namespace
   # - host: www.finaltask-a.pp.ua
   #   http:
   #     paths:
@@ -13,7 +13,7 @@ spec:
   #          serviceName: prod-service
   #          servicePort: 80
 
-# uncomment this part below for test namespace
+# uncomment this part below for prod namespace
   # - host: finaltask-a.pp.ua
   #   http:
   #     paths:
@@ -29,7 +29,7 @@ spec:
   #          serviceName: test-service
   #          servicePort: 80
 
-# uncomment this part below for test namespace
+# uncomment this part below for jenkins namespace
   # - host: jenkins.finaltask-a.pp.ua
   #   http:
   #     paths:

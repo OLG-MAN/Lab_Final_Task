@@ -1,21 +1,3 @@
-# terraform {
-#   required_providers {
-#     google = {
-#       source  = "hashicorp/google"
-#     #   version = "3.73.0"
-#     }
-#   }
-# }
-
-# data "" "" {
-#   family  = ""
-#   project = ""
-# }
-
-# resource "google_compute_network" "vpc_network" {
-#   name        = ""
-# }
-
 provider "google" {
   credentials = file("final-task-lab-2e60018e049f.json")
   project     = var.project
